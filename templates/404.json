@@ -1,0 +1,10 @@
+{
+    "name": "404 Not Found",
+    "sections": {
+        "template":{
+            "type": "template-404",
+            
+        }
+    },
+    "order": ["template"],
+}

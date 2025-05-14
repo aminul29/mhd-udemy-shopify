@@ -1,0 +1,60 @@
+{%- comment -%} Main container with max width for content centering {%- endcomment -%}
+<div class="max-w-md">
+  {%- comment -%} 404 error title from section settings {%- endcomment -%}
+  <div class="text-5xl font-bold my-4">
+    {{ section.settings.title }}
+  </div>
+  {%- comment -%} Subtext explanation message {%- endcomment -%}
+  <div class="my-4">
+    <p class="text-base md:text-xl leading-normal">
+      {{ section.settings.subtext_html }}
+    </p>
+  </div>
+  {%- comment -%} Return button with fallback URL logic {%- endcomment -%}
+  <div class="my-4">
+    {% if section.settings.button_link == blank %}
+      {%- comment -%} Use shop URL if no custom link provided {%- endcomment -%}
+      {% assign shop_url = shop.secure_url %}
+    {% else %}
+      {%- comment -%} Use custom link from section settings {%- endcomment -%}
+      {% assign shop_url = section.settings.button_link %}
+    {% endif %}
+    <a href="{{ shop_url }}" class="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">
+      {{ section.settings.button_text }}
+    </a>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Template 404",
+    "tag": "section",
+    "class": "flex items-center justify-center h-screen text-center py-7",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "default": "404 - Page Not Found",
+        "label": "404 Title"
+      },
+      {
+        "type": "text",
+        "id": "subtext_html",
+        "default": "The page you were looking for does not exist",
+        "label": "404 Subtext"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "default": "Go to Home",
+        "label": "Button Text"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "default": "/",
+        "label": "Button Link"
+      }
+    ]
+  }
+{% endschema %}
