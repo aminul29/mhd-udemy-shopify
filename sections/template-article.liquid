@@ -33,7 +33,7 @@
           <div class="my-8" itemprop="image">
             {% if article.image != blank %}
               <img
-                src="{{ article.image | img_url: 'large' }}"
+                src="{{ article.image | image_url: 'large' }}"
                 alt="{{ article.image.alt | escape }}"
                 width="{{ article.image.width }}"
                 height="{{ article.image.height }}"
@@ -161,9 +161,37 @@
       <p class="text-base text-center text-gray-900 mb-4">There are no comments available for this article</p>
     {% endif %}
   </div>
-
-
 {% endif %}
+
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ article.title | json }},
+    "articleBody": {{ article.content | strip_html | json }},
+    {% if article.excerpt %}
+      "description": {{ article.excerpt | strip_html | json }},
+      {% endif %}
+      {% if article.image %}
+        "image": {{ article.image | image_url: 'large' | json }},
+        {% endif %}
+        "datePublished": {{ article.published_at | date: format: 'default' | json }},
+        "dateModified": {{ article.updated_at | date: format: 'default' | json }},
+        "author": {
+          "@type": "Person",
+          "name": {{ article.author | json }},
+          "url": "https://www.mhdaminul.com"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": {{ shop.name | json }},
+          "logo": {
+            "@type": "ImageObject",
+            "url": {{ shop.logo | image_url: 'large' | prepend: 'https' | json }}
+          }
+        }
+      }
+</script>
 
 {% schema %}
   {
