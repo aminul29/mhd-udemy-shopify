@@ -1,0 +1,31 @@
+{% # Only show pagination if there is more than one page %}
+{% if pagination.pages > 1 %}
+  <div class="mt-12 flex justify-center">
+    {% # Navigation container with ARIA labels for accessibility %}
+    <nav
+      class="flex items-center space-x-2"
+      role="navigation"
+      aria-label="Pagination">
+      {% # Show 'Previous' button if there's a previous page %}
+      {%- if pagination.previous -%}
+        <a href="{{ pagination.previous.url }}" class="px-4 py-2 border rounded-md hover:bg-gray-50">Previous</a>
+      {%- endif -%}
+
+      {% # Loop through pagination parts (page numbers) %}
+      {%- for part in pagination.parts -%}
+        {% # If the part is a link (not current page), show as clickable %}
+        {% if part.is_link %}
+          <a href="{{ part.url }}" class="px-4 py-2 border rounded-md hover:bg-gray-50">{{ part.title }}</a>
+        {% # If not a link (current page), show as active state %}
+        {% else %}
+          <span class="px-4 py-2 border rounded-md bg-blue-50 text-blue-600">{{ part.title }}</span>
+        {% endif %}
+      {%- endfor -%}
+
+      {% # Show 'Next' button if there's a next page %}
+      {%- if pagination.next -%}
+        <a href="{{ pagination.next.url }}" class="px-4 py-2 border rounded-md hover:bg-gray-50">Next</a>
+      {%- endif -%}
+    </nav>
+  </div>
+{% endif %}

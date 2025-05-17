@@ -1,15 +1,94 @@
-{% paginate blog.articles by 3 %}
-  {% for article in blog.articles %}
-    <div class="">
-      {% if article.image %}
-        <img
-          src="{{ article.image | img_url: 'large' }}"
-          height="{{ article.image.height }}"
-          alt="{{ article.image.alt | escape }}"
-          width="{{ article.image.width }}" />
-      {% else %}
-        {{ 'image' | placeholder_svg_tag: 'large' }}
-      {% endif %}
-    </div>
-  {% endfor %}
-{% endpaginate %}
+<div class="container mx-auto px-4 py-8">
+  <div class="max-w-7xl mx-auto">
+    {% paginate blog.articles by section.settings.blog_articles_per_page %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for article in blog.articles %}
+          <article class="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+            <div class="aspect-w-16 aspect-h-9">
+              {% if article.image %}
+               <a href="{{ article.url }}">
+                <img
+                  src="{{ article.image | img_url: 'large' }}"
+                  height="{{ article.image.height }}"
+                  alt="{{ article.image.alt | escape }}"
+                  width="{{ article.image.width }}"
+                  class="object-cover w-full h-full" />
+               </a>
+              {% else %}
+                <div class="bg-gray-100 w-full h-full flex items-center justify-center">
+                  {{ 'image' | placeholder_svg_tag: 'w-full h-80 text-gray-400 object-cover bg-gray-100' }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">{{ article.title }}</h2>
+              <div class="text-gray-600">
+                {% if article.excerpt.size > 0 %}
+                  {{ article.excerpt }}
+                {% else %}
+                  <p class="line-clamp-3">{{ article.content | strip_html | truncatewords: 15 }}</p>
+                {% endif %}
+              </div>
+              <div class="mt-6 flex flex-col space-y-3">
+                <div class="flex items-center text-sm text-gray-500">
+                  {% if article.author %}
+                    <span class="flex items-center">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                      </svg>
+                      {{ article.author }}
+                    </span>
+                  {% endif %}
+                  
+                  {% if article.published_at %}
+                    <span class="flex items-center {% if article.author %}ml-4{% endif %}">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      </svg>
+                      {{ article.published_at | date: '%B %d, %Y' }}
+                    </span>
+                  {% endif %}
+                </div>
+                
+                <a href="{{ article.url }}" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 transition-colors duration-200">
+                  {{ section.settings.blog_read_more }}
+                  <svg class="w-4 h-4 ml-2 -mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>      
+      <div class="max-w-6xl mx-auto mt-8">
+         {% # render pagination-numbered from snippets folder and add pagination parameter 
+         # to directly use it in the pagination-numbered.liquid file %}
+        {% render 'pagination-numbered', pagination: paginate %}
+      </div>
+    {% endpaginate %}
+  </div>
+</div>
+
+{% schema %}
+{ 
+   "name": "Blog",
+   "settings": [
+         {
+            "type": "text",
+            "id": "blog_read_more",
+            "label": "Read more text",
+            "default": "Read more"
+         },
+         {
+            "type": "range",
+            "id": "blog_articles_per_page",
+            "label": "Articles per page",
+            "default": 3,
+            "min": 1,
+            "max": 10,
+            "step": 1
+         }
+      ]
+}
+{% endschema %}
