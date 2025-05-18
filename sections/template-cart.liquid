@@ -96,7 +96,7 @@
                       type="submit"
                       name="update"
                       class="flex-1 bg-gray-100 text-gray-800 py-3 px-6 rounded-lg hover:bg-gray-200 transition duration-200 cursor-pointer">
-                      Update Cart
+                      {{ section.settings.update_button_text | default: 'Update Cart' }}
                     </button>
                   </div>
                 {% when 'checkout_button' %}
@@ -105,7 +105,7 @@
                       type="submit"
                       name="checkout"
                       class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200 cursor-pointer">
-                      Checkout
+                      {{ section.settings.checkout_button_text | default: 'Checkout' }}
                     </button>
                   </div>
               {% else %}
@@ -131,6 +131,20 @@
   {% schema %}
     {
       "name": "Template Cart",
+      "settings": [
+        {
+          "type": "text",
+          "id": "update_button_text",
+          "label": "Update Button Text",
+          "default": "Update Cart"
+        },
+        {
+          "type": "text",
+          "id": "checkout_button_text",
+          "label": "Checkout Button Text",
+          "default": "Checkout"
+        }
+      ],
       "blocks": [
         {
           "type": "subtotal",
@@ -146,6 +160,22 @@
           "type": "checkout_button",
           "name": "Checkout Button",
           "limit": 1
+        }
+      ],
+      "presets": [
+        {
+          "name": "Cart Page",
+          "blocks": [
+            {
+              "type": "subtotal"
+            },
+            {
+              "type": "update_button"
+            },
+            {
+              "type": "checkout_button"
+            }
+          ]
         }
       ]
     }
