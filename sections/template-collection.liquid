@@ -9,11 +9,11 @@
   </div>
 
   {% # Paginate products, showing 6 items per page %}
-  {% paginate collection.products by 6 %}
+  {% paginate collection.products by section.settings.products_per_page %}
     {% # Responsive grid layout: 1 column on mobile, 2 on tablet, 3 on desktop %}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {% for product in collection.products %}
-         
+
         {% # Product Card from snippet folder %}
         {% render 'product-card'
           , product: product %}
@@ -32,3 +32,17 @@
     </div>
   {% endpaginate %}
 </div>
+
+{% schema %}
+  {
+    "name": "Template Collection",
+    "settings": [
+      {
+        "type": "number",
+        "id": "products_per_page",
+        "label": "Products per Page",
+        "default": 6
+      }
+    ]
+  }
+{% endschema %}
