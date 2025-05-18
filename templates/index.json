@@ -1,7 +1,7 @@
 {
     "sections":{
         "featured-collection":{
-            "type": "featured-collections",            
+            "type": "featured-collection",            
         }
     },
     "order": [
