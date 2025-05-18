@@ -159,7 +159,10 @@ function Pull-LatestChanges {
 function Reset-ShopifyTheme {
     param (
         [Parameter(Mandatory = $true)]
-        [long]$ThemeId
+        [long]$ThemeId,
+        
+        [Parameter(Mandatory = $false)]
+        [int]$TimeoutSeconds = 300
     )
     
     # Safety check - ensure we're not pushing to the live theme
@@ -171,8 +174,40 @@ function Reset-ShopifyTheme {
     Write-ColorMessage "Resetting Shopify development theme (ID: $ThemeId) to match current code..." $COLOR_INFO
     
     try {
-        # Push theme to development theme ID
-        shopify theme push --theme $ThemeId
+        # Create a script block for the theme push command with all necessary flags
+        $scriptBlock = {
+            param($themeId)
+            # Use --force to skip confirmations, --allow-live for safety, and --no-delete to prevent accidental deletions
+            shopify theme push --theme $themeId --force --no-delete --json
+        }
+        
+        Write-ColorMessage "Starting Shopify theme push (non-interactive mode)..." $COLOR_INFO
+        
+        # Start the process as a job to enable timeout capability
+        $job = Start-Job -ScriptBlock $scriptBlock -ArgumentList $ThemeId
+        
+        # Wait for the job to complete with timeout
+        $completed = Wait-Job -Job $job -Timeout $TimeoutSeconds
+        
+        # Check if the job timed out
+        if (-not $completed) {
+            Write-ColorMessage "Shopify theme push operation timed out after $TimeoutSeconds seconds." $COLOR_ERROR
+            Remove-Job -Job $job -Force
+            return $false
+        }
+        
+        # Get the results from the job
+        $result = Receive-Job -Job $job
+        Remove-Job -Job $job
+        
+        # Check if operation was successful
+        if ($LASTEXITCODE -ne 0) {
+            Write-ColorMessage "Shopify theme push command failed with exit code $LASTEXITCODE." $COLOR_ERROR
+            if ($result) {
+                Write-ColorMessage "Command output: $result" $COLOR_ERROR
+            }
+            return $false
+        }
         
         Write-ColorMessage "Successfully reset development theme to match current code." $COLOR_SUCCESS
         return $true

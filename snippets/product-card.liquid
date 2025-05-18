@@ -1,0 +1,29 @@
+{% # Product card with hover effects and shadow %}
+<div class="group relative bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
+  {% # Product image section with fallback placeholder %}
+  {% if product.featured_image %}
+    <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg">
+      <img
+        src="{{ product.featured_image | img_url: 'medium' }}"
+        alt="{{ product.featured_image.alt }}"
+        height=""
+        width=""
+        class="h-full w-full object-cover object-center">
+    </div>
+  {% else %}
+    {% # Display placeholder SVG if no product image exists %}
+    {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover rounded-t-lg' }}
+  {% endif %}
+
+  {% # Product information section %}
+  <div class="p-4">
+    {% # Vendor name %}
+    <span class="text-sm text-gray-500">{{ product.vendor }}</span>
+    {% # Product title with hover effect %}
+    <a href="{{ product.url }}" class="mt-2 block">
+      <h2 class="text-lg font-medium text-gray-900 hover:text-indigo-600 transition-colors">{{ product.title }}</h2>
+    </a>
+    {% # Product price %}
+    <p class="mt-2 text-xl font-semibold text-gray-900">{{ product.price | money }}</p>
+  </div>
+</div>
