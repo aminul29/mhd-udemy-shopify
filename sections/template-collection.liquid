@@ -1,4 +1,6 @@
+{% # Main container with max width and padding for responsive layout %}
 <div class="max-w-6xl mx-auto px-4 py-8">
+  {% # Collection header section with title and description %}
   <div class="mb-8">
     <h1 class="text-3xl font-bold text-gray-900">{{ collection.title }}</h1>
     {% if collection.description != blank %}
@@ -6,10 +8,14 @@
     {% endif %}
   </div>
 
+  {% # Paginate products, showing 6 items per page %}
   {% paginate collection.products by 6 %}
+    {% # Responsive grid layout: 1 column on mobile, 2 on tablet, 3 on desktop %}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {% for product in collection.products %}
+        {% # Product card with hover effects and shadow %}
         <div class="group relative bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
+          {% # Product image section with fallback placeholder %}
           {% if product.featured_image %}
             <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg">
               <img
@@ -19,26 +25,34 @@
                 width=""
                 class="h-full w-full object-cover object-center">
             </div>
+          {% else %}
+            {% # Display placeholder SVG if no product image exists %}
+            {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover rounded-t-lg' }}
           {% endif %}
 
+          {% # Product information section %}
           <div class="p-4">
+            {% # Vendor name %}
             <span class="text-sm text-gray-500">{{ product.vendor }}</span>
+            {% # Product title with hover effect %}
             <a href="{{ product.url }}" class="mt-2 block">
               <h2 class="text-lg font-medium text-gray-900 hover:text-indigo-600 transition-colors">{{ product.title }}</h2>
             </a>
+            {% # Product price %}
             <p class="mt-2 text-xl font-semibold text-gray-900">{{ product.price | money }}</p>
           </div>
         </div>
       {% else %}
+        {% # Empty state when no products are found %}
         <div class="col-span-full text-center py-12">
           <p class="text-gray-500 text-lg">No products found.</p>
         </div>
       {% endfor %}
     </div>
 
+    {% # Pagination section %}
     <div class="mt-8">
-      {% render 'pagination-numbered'
-        , pagination: paginate %}
+      {% render 'pagination-numbered', pagination: paginate %}
     </div>
   {% endpaginate %}
 </div>
