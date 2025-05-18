@@ -205,7 +205,7 @@ function Start-ThemeWorkflow {
     }
     
     # Check if we're in a git repository
-    if (-not (Test-GitSync)) {
+    if (-not (Test-GitRepository)) {
         return
     }
     
@@ -248,7 +248,7 @@ Write-ColorMessage "  ./theme-workflow.ps1" $COLOR_INFO
 Write-ColorMessage "  ./theme-workflow.ps1 -CommitMessage 'Updated header component'" $COLOR_INFO
 Write-ColorMessage "  ./theme-workflow.ps1 -SkipGitSync" $COLOR_INFO
 Write-ColorMessage "  ./theme-workflow.ps1 -SkipThemeReset" $COLOR_INFO
-Write-ColorMessage ""
+Write-ColorMessage " "
 
 # Execute the workflow with default parameters
 # To customize, call the Start-ThemeWorkflow function with parameters

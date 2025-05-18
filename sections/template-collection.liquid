@@ -1,0 +1,6 @@
+{% paginate collection.products by 6 %}
+  {% for product in collection.products %}
+  {% else %}
+    <p>No products found.</p>
+  {% endfor %}
+{% endpaginate %}
