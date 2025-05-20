@@ -17,9 +17,9 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {% for product in section.settings.featured_collection.products %}
-        <div class="product-card h-full flex flex-col">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {% for product in section.settings.featured_collection.products limit: 4 %}
+        <div class="product-card group flex flex-col bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300">
           {% render 'product-card', product: product %}
         </div>
       {% endfor %}
