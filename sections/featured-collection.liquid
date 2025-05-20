@@ -22,6 +22,10 @@
         <div class="product-card group flex flex-col bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300">
           {% render 'product-card', product: product %}
         </div>
+      {% else %}
+        {% for item in (1..4) %}
+          {% render 'product-card-placeholder' %}
+        {% endfor %}
       {% endfor %}
     </div>
   </div>
