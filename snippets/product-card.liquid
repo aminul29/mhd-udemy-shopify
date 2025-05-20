@@ -1,5 +1,5 @@
 {% # Product card with hover effects and shadow %}
-<div class="group relative bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
+<div class="group relative bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
   {% # Product image section with fallback placeholder %}
   {% if product.featured_image %}
     <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-t-lg">
@@ -8,7 +8,8 @@
         alt="{{ product.featured_image.alt }}"
         height=""
         width=""
-        class="h-full w-full object-cover object-center transition duration-1000 ease-in-out hover:scale-105 transform group-hover:scale-105">
+        class="h-full w-full object-cover object-center transition duration-1000 ease-in-out hover:scale-105 transform group-hover:scale-105"
+      >
     </div>
   {% else %}
     {% # Display placeholder SVG if no product image exists %}
@@ -16,13 +17,17 @@
   {% endif %}
 
   {% # Product information section %}
-  <div class="p-4">
+  <div class="p-4 flex-grow flex flex-col">
     {% # Vendor name %}
     <span class="text-sm text-gray-500">{{ product.vendor }}</span>
     {% # Product title with hover effect %}
     <a href="{{ product.url }}" class="mt-2 block">
-      <h2 class="text-lg font-medium text-gray-900 hover:text-indigo-600 transition-colors">{{ product.title }}</h2>
+      <h2 class="text-lg font-medium text-gray-900 hover:text-indigo-600 transition-colors line-clamp-2">
+        {{ product.title }}
+      </h2>
     </a>
+    {% # Spacer to push price to the bottom %}
+    <div class="flex-grow"></div>
     {% # Product price %}
     <p class="mt-2 text-xl font-semibold text-gray-900">{{ product.price | money }}</p>
   </div>
