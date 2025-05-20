@@ -18,7 +18,7 @@
 
     <!-- Product Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {% for product in section.settings.featured_collection.products limit: 4 %}
+      {% for product in section.settings.featured_collection.products limit: section.settings.product_per_page %}
         <div class="product-card group flex flex-col bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300">
           {% render 'product-card', product: product %}
         </div>
@@ -41,6 +41,15 @@
       "type": "collection",
       "id": "featured_collection",
       "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_per_page",
+      "label": "Products per Page",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 4
     }
   ]
 }
