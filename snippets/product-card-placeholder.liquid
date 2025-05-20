@@ -1,5 +1,10 @@
-<div class="">
-  <div>
+<div class="p-4 bg-white rounded-lg shadow-md">
+  <div class="relative">
     {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover rounded-lg bg-gray-200' }}
+  </div>
+  <div class="mt-4 space-y-2">
+    <span class="block text-sm font-medium text-gray-500">vendor</span>
+    <span class="block text-lg font-semibold uppercase text-gray-800">Placeholder Title</span>
+    <span class="block text-base font-bold text-green-600">{{ '99' | money }}</span>
   </div>
 </div>
