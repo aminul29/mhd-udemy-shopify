@@ -38,24 +38,20 @@
 
 {% schema %}
 {
-  {% # Schema for the section settings %}
   "name": "Featured Collection",
   "settings": [
     {
-      {% # Setting for the section title %}
       "type": "text",
       "id": "title",
       "label": "Title",
       "default": "Featured Collection"
     },
     {
-      {% # Setting to select the featured collection %}
       "type": "collection",
       "id": "featured_collection",
       "label": "Collection"
     },
     {
-      {% # Setting to control the number of products displayed per page %}
       "type": "range",
       "id": "product_per_page",
       "label": "Products per Page",
@@ -65,7 +61,6 @@
       "default": 4
     }
   ],
-  {% # Preset configuration for the section %}
   "presets": [
     {
       "name": "Featured Collection",
