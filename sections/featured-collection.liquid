@@ -2,9 +2,11 @@
   <div class="max-w-7xl mx-auto">
     <!-- Section Header -->
     <div class="flex items-center justify-between mb-8">
+      {% # Display the section title dynamically from settings %}
       <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
         {{ section.settings.title }}
       </h2>
+      {% # Link to view all products in the featured collection %}
       <a
         href="{{ section.settings.featured_collection.url }}"
         class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition duration-200"
@@ -18,11 +20,14 @@
 
     <!-- Product Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {% # Loop through the products in the featured collection %}
       {% for product in section.settings.featured_collection.products limit: section.settings.product_per_page %}
         <div class="product-card group flex flex-col bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow duration-300">
+          {% # Render the product card snippet for each product %}
           {% render 'product-card', product: product %}
         </div>
       {% else %}
+        {% # If no products are available, render placeholders %}
         {% for item in (1..4) %}
           {% render 'product-card-placeholder' %}
         {% endfor %}
@@ -33,20 +38,24 @@
 
 {% schema %}
 {
+  {% # Schema for the section settings %}
   "name": "Featured Collection",
   "settings": [
     {
+      {% # Setting for the section title %}
       "type": "text",
       "id": "title",
       "label": "Title",
       "default": "Featured Collection"
     },
     {
+      {% # Setting to select the featured collection %}
       "type": "collection",
       "id": "featured_collection",
       "label": "Collection"
     },
     {
+      {% # Setting to control the number of products displayed per page %}
       "type": "range",
       "id": "product_per_page",
       "label": "Products per Page",
@@ -54,6 +63,13 @@
       "max": 12,
       "step": 1,
       "default": 4
+    }
+  ],
+  {% # Preset configuration for the section %}
+  "presets": [
+    {
+      "name": "Featured Collection",
+      "category": "Custom"
     }
   ]
 }
