@@ -1,0 +1,67 @@
+{% # Container for the entire collections list with responsive padding %}
+<div class="container mx-auto px-4 py-8">
+  {% # Section title from theme settings %}
+  <h1 class="text-3xl font-bold text-center mb-8">{{ section.settings.title }}</h1>
+
+  {% # Responsive grid layout for collections %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% # Loop through all collections in the store %}
+    {% for collection in collections %}
+      {% # Only show collections that have products %}
+      {% if collection.all_products_count > 0 %}
+        {% # Collection card with hover effects %}
+        <div class="group">
+          <a
+            href="{{ collection.url }}"
+            class="block overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+          >
+            {% # Image container with aspect ratio %}
+            <div class="relative aspect-w-16 aspect-h-9">
+              {% # Use collection featured image or first product image as fallback %}
+              {% if collection.featured_image != blank %}
+                {% assign collection_image = collection.featured_image %}
+              {% else %}
+                {% assign collection_image = collection.products.first.image %}
+              {% endif %}
+              {% # Responsive collection image with hover zoom effect %}
+              <img
+                src="{{ collection_image | img_url: 'medium' }}"
+                alt="{{ collection.title }}"
+                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+                height=""
+                width=""
+              >
+            </div>
+            {% # Collection information container %}
+            <div class="p-4 bg-white">
+              <h2 class="text-xl font-semibold text-gray-800">{{ collection.title }}</h2>
+              <p class="text-sm text-gray-600 mt-2">{{ collection.all_products_count }} products</p>
+            </div>
+          </a>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% # Schema for theme customization %}
+{% schema %}
+{
+  "name": "Template List Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Collections"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Template List Collection",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

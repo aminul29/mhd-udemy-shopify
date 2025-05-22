@@ -1,13 +1,18 @@
 {% # Main container with max width and padding for responsive layout %}
 <div class="max-w-6xl mx-auto px-4 py-8">
   {% # Collection header section with title and description %}
-  <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-900">{{ collection.title }}</h1>
-    {% if collection.description != blank %}
-      <div class="mt-4 text-gray-600">{{ collection.description }}</div>
-    {% endif %}
-  </div>
 
+  <div class="mb-8 flex items-center justify-between">
+    {% # Collection image with aspect ratio and hover effect %}
+    <div class="">
+      <h1 class="text-3xl font-bold text-gray-900">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <div class="mt-4 text-gray-600">{{ collection.description }}</div>
+      {% endif %}
+    </div>
+    <a href="{{ routes.collections_url }}" class="text-blue-600 hover:underline">Go Back to Collections</a>
+  </div>
+      
   {% # Paginate products, showing 6 items per page %}
   {% paginate collection.products by section.settings.products_per_page %}
     {% # Responsive grid layout: 1 column on mobile, 2 on tablet, 3 on desktop %}
