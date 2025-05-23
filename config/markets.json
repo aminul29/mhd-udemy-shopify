@@ -8,19 +8,5 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {
-    "template": {
-      "type": "template-page",
-      "settings": {}
-    },
-    "contact_form_LEJYpt": {
-      "type": "contact-form",
-      "name": "Contact Form",
-      "settings": {}
-    }
-  },
-  "order": [
-    "template",
-    "contact_form_LEJYpt"
-  ]
+  "markets": {}
 }
