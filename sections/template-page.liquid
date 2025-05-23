@@ -1,20 +1,24 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
   <div class="prose prose-lg max-w-3xl mx-auto">
-   {% if condition %}
-      
-   {% endif %}
-    <h1 class="text-4xl font-bold text-gray-900 mb-8">{{ page.title }}</h1>
-    <div class="text-gray-700 leading-relaxed">
-      {{ page.content }}
-    </div>
+    {% if  %}
+      <h1 class="text-4xl font-bold text-gray-900 mb-8">{{ page.title }}</h1>
+      <div class="text-gray-700 leading-relaxed">
+        {{ page.content }}
+      </div>
+    {% endif %}
   </div>
 </div>
 
 {% schema %}
-{
-   "name": "Template Page",
-   "settings": [
-      
-      ]
-}
+  {
+    "name": "Template Page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_title",
+        "label": "Enable Title",
+        "default": true
+      }
+    ]
+  }
 {% endschema %}
