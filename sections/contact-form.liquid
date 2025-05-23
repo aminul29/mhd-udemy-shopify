@@ -10,7 +10,10 @@
 
   {% form 'contact' %}
     {% if form.errors %}
-      <div class="border border-red-300 bg-red-50 p-4 my-3 rounded-lg w-full" role="alert" aria-label="Form errors">
+      <div
+        class="border border-red-300 bg-red-50 p-4 my-3 rounded-lg w-full"
+        role="alert"
+        aria-label="Form errors">
         <div class="flex flex-col items-start w-full">
           <div class="flex items-center">
             <div class="text-red-500">
@@ -88,6 +91,19 @@
 {% schema %}
   {
     "name": "Contact Form",
+    "settings": [
+      {
+        "type": "text",
+        "id": "form_title",
+        "label": "Form Title"
+      },
+      {
+        "type": "textarea",
+        "id": "form_description",
+        "label": "Form Description",
+        "default": "Have a question? We'd love to hear from you."
+      }
+    ],
     "presets": [
       {
         "name": "Contact Form",
