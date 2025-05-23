@@ -10,19 +10,25 @@
 
   {% form 'contact' %}
     {% if form.errors %}
-      <div class="border border-gray-300 p-2 my-3 rounded-lg w-full">
-        <div class="flex flex-col items-center w-full my-3">
-          <div class="flex flex-row align-center">
+      <div class="border border-red-300 bg-red-50 p-4 my-3 rounded-lg w-full" role="alert" aria-label="Form errors">
+        <div class="flex flex-col items-start w-full">
+          <div class="flex items-center">
             <div class="text-red-500">
               {% render 'icon-info' %}
             </div>
-            <div class="text-sm font-medium ml-3">
-              Oh no! There was an error with your submission.
+            <div class="text-sm font-medium ml-3 text-red-700">
+              {{ 'templates.contact.form_error_heading' | t }}
             </div>
           </div>
-          <ul class="px-4 ml-7 list-decimal">
+          <ul class="mt-2 ml-6 list-disc text-sm text-red-700">
             {% for error in form.errors %}
-              <li class="text-red-500">{{ form.errors.messages[error] }}</li>
+              <li>
+                {%- if error == 'form' -%}
+                  {{ form.errors.messages[error] }}
+                {%- else -%}
+                  {{ error }} - {{ form.errors.messages[error] }}
+                {%- endif -%}
+              </li>
             {% endfor %}
           </ul>
         </div>
