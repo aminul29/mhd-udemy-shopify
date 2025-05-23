@@ -1,13 +1,14 @@
 <div class="max-w-2xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-  <div class="text-center mb-8">
-    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-      {{ section.settings.form_title }}
-    </h2>
-    <p class="mt-4 text-lg text-gray-500">
-      {{ section.settings.form_description }}
-    </p>
-  </div>
-
+   {% if section.settings.form_title != blank %}
+      <div class="text-center mb-8">
+         <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+           {{ section.settings.form_title }}
+         </h2>
+         <p class="mt-4 text-lg text-gray-500">
+           {{ section.settings.form_description }}
+         </p>
+       </div>
+   {% endif %}
   {% form 'contact' %}
     {% if form.errors %}
       <div
@@ -20,7 +21,7 @@
               {% render 'icon-info' %}
             </div>
             <div class="text-sm font-medium ml-3 text-red-700">
-              {{ 'templates.contact.form_error_heading' | t }}
+              Form submission error
             </div>
           </div>
           <ul class="mt-2 ml-6 list-disc text-sm text-red-700">
