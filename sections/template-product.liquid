@@ -1,0 +1,7 @@
+<div class="product--medias">
+   {% for media in product.media %}
+      <div class="h-100">
+         {% render 'product-media', media: media %}
+      </div>
+   {% endfor %}
+</div>
