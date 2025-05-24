@@ -1,7 +1,11 @@
-<div class="product--medias">
-   {% for media in product.media %}
-      <div class="h-100">
-         {% render 'product-media', media: media %}
+<div class="product-gallery container mx-auto px-4 py-8">
+  <div class="product--medias grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+    {% for media in product.media %}
+      <div class="product-media-item relative overflow-hidden rounded-lg shadow-lg h-full">
+        <div class="aspect-w-1 aspect-h-1">
+          {% render 'product-media', media: media %}
+        </div>
       </div>
-   {% endfor %}
+    {% endfor %}
+  </div>
 </div>
