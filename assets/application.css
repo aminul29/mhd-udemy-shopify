@@ -1291,7 +1291,7 @@ h5 {
   line-height: var(--tw-leading, var(--text-base--line-height));
 }
 .h-94 {
-  height: 94px;
+  height: 22rem;
 }
 @property --tw-rotate-x {
   syntax: "*";
