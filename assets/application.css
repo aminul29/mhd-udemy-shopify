@@ -420,9 +420,6 @@
   .h-94 {
     height: calc(var(--spacing) * 94);
   }
-  .h-100 {
-    height: calc(var(--spacing) * 100);
-  }
   .h-auto {
     height: auto;
   }
@@ -1292,6 +1289,9 @@ h4 {
 h5 {
   font-size: var(--text-base);
   line-height: var(--tw-leading, var(--text-base--line-height));
+}
+.h-94 {
+  height: 94px;
 }
 @property --tw-rotate-x {
   syntax: "*";
