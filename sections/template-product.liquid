@@ -1,11 +1,20 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@latest/swiper-bundle.min.css" defer />
+<script src="https://cdn.jsdelivr.net/npm/swiper@latest/swiper-bundle.min.js" defer></script>
+
+
 <div class="product-gallery container mx-auto px-4 py-8">
   <div class="product--medias grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-    {% for media in product.media %}
-      <div class="product-media-item relative overflow-hidden rounded-lg shadow-lg h-full">
-        <div class="aspect-w-1 aspect-h-1">
-          {% render 'product-media', media: media %}
-        </div>
-      </div>
-    {% endfor %}
+   <div class="hidden md:block">
+      {% for media in product.media %}
+         <div class="product-media-item relative overflow-hidden rounded-lg shadow-lg h-full">
+         <div class="aspect-w-1 aspect-h-1">
+            {% render 'product-media', media: media %}
+         </div>
+         </div>
+      {% endfor %}
+   </div>
+   <div class="md:hidden">
+      <div class="swiper h-94"></div>
+   </div>
   </div>
 </div>
