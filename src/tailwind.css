@@ -30,5 +30,9 @@ h5 {
 }
 
 .h-94 {
-    @apply h-[22rem]
+    @apply h-[22rem];
+}
+
+button {
+    @apply cursor-pointer;
 }

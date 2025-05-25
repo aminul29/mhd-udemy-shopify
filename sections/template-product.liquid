@@ -47,9 +47,9 @@
          </div>
       </div>
   </div>
-  <div class="product--information">
+  <div class="product--information sticky top-5 p-2">
    {% form 'product', product %}
-      inpt:hidden
+      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
       <div class="my-3">
          <span>{{ product.vendor }}</span>
          <div class="">
