@@ -69,7 +69,7 @@
           <div class="flex items-center gap-4">
             {% assign product_price = selected_variant %}
             <span class="text-3xl font-bold text-gray-900">{{ product_price.price | money }}</span>
-            {% if selected_variant.price < selected_variant.compare_at_price %}
+            {% if product_price.price < product_price.compare_at_price %}
               <span class="text-lg text-gray-500 line-through">{{ product_price.compare_at_price | money }}</span>
               <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Sale</span>
             {% endif %}
