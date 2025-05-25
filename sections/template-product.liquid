@@ -66,7 +66,10 @@
             {% unless product.has_only_default_variant %}
                <div class="" data-url="{{ product.url }}" data-section="{{ section.id }}">
                   {% for option in product.options_with_values %}
-                     <label for="option-{{ section.id }}">{{ option.name }}</label>
+                     <label for="option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
+                     <div class="my-2">
+                        <select name="options[{{ option.name | escape }}]" id="option-{{ section.id }}-{{ forloop.index0 }} class="""></select>
+                     </div>
                   {% endfor %}
                </div>
             {% endunless %}
