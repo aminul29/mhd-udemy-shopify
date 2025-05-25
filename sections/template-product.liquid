@@ -47,7 +47,16 @@
          </div>
       </div>
   </div>
-  <div class="product--information"></div>
+  <div class="product--information">
+   {% form 'product', product %}
+      <div class="my-3">
+         <span>{{ product.vendor }}</span>
+         <div class="">
+            <h1>{{ product.title }}</h1>
+         </div>
+      </div>
+   {% endform %}
+  </div>
 </div>
 
 <script>
