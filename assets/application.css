@@ -731,6 +731,9 @@
   .border-gray-300 {
     border-color: var(--color-gray-300);
   }
+  .border-gray-500 {
+    border-color: var(--color-gray-500);
+  }
   .border-gray-600 {
     border-color: var(--color-gray-600);
   }
@@ -1196,6 +1199,11 @@
       border-color: var(--color-blue-500);
     }
   }
+  .focus\:border-gray-500 {
+    &:focus {
+      border-color: var(--color-gray-500);
+    }
+  }
   .focus\:border-indigo-500 {
     &:focus {
       border-color: var(--color-indigo-500);
@@ -1220,6 +1228,11 @@
   .focus\:ring-gray-400 {
     &:focus {
       --tw-ring-color: var(--color-gray-400);
+    }
+  }
+  .focus\:ring-gray-500 {
+    &:focus {
+      --tw-ring-color: var(--color-gray-500);
     }
   }
   .focus\:ring-indigo-500 {

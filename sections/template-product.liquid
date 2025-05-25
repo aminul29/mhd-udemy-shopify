@@ -86,10 +86,9 @@
                 </label>
                 <select name="options[{{ option.name | escape }}]" 
                         id="option-{{ section.id }}-{{ forloop.index0 }}"
-                        class="w-full rounded-lg border-gray-300 py-3 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        class="w-full px-2 rounded-lg border-gray-300 py-3 shadow-sm focus:ring-gray-500 focus:border-gray-500">
                   {% for value in option.values %}
-                    <option value="{{ value | escape }}"
-                            {% if option.selected_value == value %}selected="selected"{% endif %}>
+                    <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
                       {{ value }}
                     </option>
                   {% endfor %}
@@ -107,7 +106,7 @@
                  id="quantity-{{ section.id }}" 
                  value="1" 
                  min="1"
-                 class="w-32 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                 class="w-32 p-3 rounded-lg border-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
         </div>
 
         <!-- Description -->
