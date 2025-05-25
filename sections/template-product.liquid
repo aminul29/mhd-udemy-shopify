@@ -49,6 +49,7 @@
   </div>
   <div class="product--information">
    {% form 'product', product %}
+      inpt:hidden
       <div class="my-3">
          <span>{{ product.vendor }}</span>
          <div class="">
@@ -93,7 +94,13 @@
          </div>
 
          <div class="my-3">
-            <button type="submit" name="add" ></button>
+         <button type="submit" name="add" {% if product.selected_or_first_available_variant == false %}disabled{% endif %}>
+            {% if product.selected_or_first_available_variant.available == false %}
+               Sold Out
+               {% else %}
+                  Add to Cart
+            {% endif %}
+         </button>
          </div>
       </div>
    {% endform %}
