@@ -56,8 +56,11 @@
          </div>
          <div class="">
             {% assign product_price = product.selected_or_first_available_variant %}
-            <span class="line-through">{{ product_price.compare_at_price }}</span>
+            <span class="line-through">{{ product_price.compare_at_price | money }}</span>
             <span>{{ product_price.price | money }}</span>
+            {% if product_price.price < product_price.compare_at_price %}
+               <span class="">Sale</span>
+            {% endif %}
          </div>
       </div>
    {% endform %}
