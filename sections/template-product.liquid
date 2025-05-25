@@ -63,8 +63,12 @@
             {% endif %}
          </div>
          <div class="my-3">
-            {% unless condition %}
-               
+            {% unless product.has_only_default_variant %}
+               <div class="" data-url="{{ product.url }}" data-section="{{ section.id }}">
+                  {% for option in product.options_with_values %}
+                     <label for="option-{{ section.id }}">{{ option.name }}</label>
+                  {% endfor %}
+               </div>
             {% endunless %}
          </div>
       </div>
