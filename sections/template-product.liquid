@@ -168,16 +168,18 @@
 
   <script>
       class VariantSelector extends HTMLElement {
-         constructor() {
-           super()
-           this.addEventListener("change", this.onVariantChange)
-         }
+    constructor() {
+      super();
+      this.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', this.onVariantChange.bind(this));
+      });
+    }
     
-         onVariantChange(){
-            console.log("I have changed the variant selector")
-         }
+    onVariantChange(event) {
+      console.log("I have changed the variant selector");
+    }
       }
-       customElements.define("variant-selector", VariantSelector)
+      customElements.define("variant-selector", VariantSelector);
   </script>
 
   <script>
