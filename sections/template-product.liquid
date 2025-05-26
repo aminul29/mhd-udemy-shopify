@@ -184,9 +184,9 @@
             this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
             console.log(this.options);
          }
-
+    
          getVariantJSON(){
-            this.variantData = this.variantData || 
+            this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent)
          }
       }
        customElements.define("variant-selector", VariantSelector)
