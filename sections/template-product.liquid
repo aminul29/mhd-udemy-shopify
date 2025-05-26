@@ -84,7 +84,7 @@
               <h1 class="text-4xl font-bold text-gray-900 tracking-tight">{{ product.title }}</h1>
 
             {% when 'price' %}
-              <div class="flex items-center gap-4">
+              <div id="price-{{ section.id }}" class="flex items-center gap-4">
                 {% assign product_price = selected_variant %}
                 <span class="text-3xl font-bold text-gray-900">{{ product_price.price | money }}</span>
                 {% if product_price.price < product_price.compare_at_price %}
