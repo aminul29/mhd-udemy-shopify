@@ -118,7 +118,9 @@
                         {% endfor %}
                       </select>
                     </div>
-                    script:
+                    <script type="application/json">
+                      {{ product.variants | json }}
+                    </script>
                   {% endfor %}
                 </variant-selector>
               {% endunless %}
@@ -181,6 +183,10 @@
          getSelectedOptions(){
             this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
             console.log(this.options);
+         }
+
+         getVariantJSON(){
+            this.variantData = this.variantData || 
          }
       }
        customElements.define("variant-selector", VariantSelector)
