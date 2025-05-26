@@ -178,6 +178,7 @@
     
          onVariantChange(){
             this.getSelectedOptions();
+            this.getSelectedVariant();
          }
     
          getSelectedOptions(){
@@ -189,7 +190,13 @@
             this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
             return this.variantData
          }
-         
+    
+         getSelectedVariant(){
+            this.currentVariant = this.getVariantJSON().find((variant) => {
+               const findings = variant.options.map
+            })
+         }
+    
       }
        customElements.define("variant-selector", VariantSelector)
   </script>
