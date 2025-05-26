@@ -72,100 +72,103 @@
           name="id"
           value="{{ selected_variant.id }}">
 
-         {% for block in section.blocks %}
-            {% case block.type %}
-               {% when 'variant' %}
-                  <span class="inline-block text-sm font-medium text-indigo-600">{{ product.vendor }}</span>
-               {% when condition %}
-               
-               {% else %}
-               
-            {% endcase %}
-         {% endfor %}
-
-        <!-- Product Header -->
-        <div class="space-y-4 border-b border-gray-200 pb-6">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'vendor' %}
+               <!-- Product Header -->
           
-          <h1 class="text-4xl font-bold text-gray-900 tracking-tight">{{ product.title }}</h1>
-
-          <!-- Price -->
-          <div class="flex items-center gap-4">
-            {% assign product_price = selected_variant %}
-            <span class="text-3xl font-bold text-gray-900">{{ product_price.price | money }}</span>
-            {% if product_price.price < product_price.compare_at_price %}
-              <span class="text-lg text-gray-500 line-through">{{ product_price.compare_at_price | money }}</span>
-              <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Sale</span>
-            {% endif %}
-          </div>
-        </div>
-
-        <!-- Variant Selector -->
-        {% unless product.has_only_default_variant %}
-          <div
-            class="space-y-6"
-            data-url="{{ product.url }}"
-            data-section="{{ section.id }}">
-            {% for option in product.options_with_values %}
-              <div class="space-y-3">
-                <label for="option-{{ section.id }}-{{ forloop.index0 }}" class="block text-sm font-medium text-gray-700">
-                  {{ option.name }}
-                </label>
-                <select
-                  name="options[{{ option.name | escape }}]"
-                  id="option-{{ section.id }}-{{ forloop.index0 }}"
-                  class="w-full px-2 rounded-lg border-gray-300 py-3 shadow-sm focus:ring-gray-500 focus:border-gray-500">
-                  {% for value in option.values %}
-                    <option
-                      value="{{ value | escape }}"
-                      {% if option.selected_value == value %}
-                      selected="selected"
-                      {% endif %}>
-                      {{ value }}
-                    </option>
-                  {% endfor %}
-                </select>
+              <span class="inline-block text-sm font-medium text-indigo-600">{{ product.vendor }}</span>
+            {% when 'title' %}
+              <h1 class="text-4xl font-bold text-gray-900 tracking-tight">{{ product.title }}</h1>
+            {% when 'price' %}
+              <div class="flex items-center gap-4">
+                {% assign product_price = selected_variant %}
+                <span class="text-3xl font-bold text-gray-900">{{ product_price.price | money }}</span>
+                {% if product_price.price < product_price.compare_at_price %}
+                  <div class="space-y-4 border-b border-gray-200 pb-6"></div>
+                  <span class="text-lg text-gray-500 line-through">{{ product_price.compare_at_price | money }}</span>
+                  <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Sale</span>
+                  </div>
+                {% endif %}
               </div>
-            {% endfor %}
-          </div>
-        {% endunless %}
+            {% when 'variant_selector' %}
+              <!-- Variant Selector -->
+              {% unless product.has_only_default_variant %}
+                <div
+                  class="space-y-6"
+                  data-url="{{ product.url }}"
+                  data-section="{{ section.id }}">
+                  {% for option in product.options_with_values %}
+                    <div class="space-y-3">
+                      <label for="option-{{ section.id }}-{{ forloop.index0 }}" class="block text-sm font-medium text-gray-700">
+                        {{ option.name }}
+                      </label>
+                      <select
+                        name="options[{{ option.name | escape }}]"
+                        id="option-{{ section.id }}-{{ forloop.index0 }}"
+                        class="w-full px-2 rounded-lg border-gray-300 py-3 shadow-sm focus:ring-gray-500 focus:border-gray-500">
+                        {% for value in option.values %}
+                          <option
+                            value="{{ value | escape }}"
+                            {% if option.selected_value == value %}
+                            selected="selected"
+                            {% endif %}>
+                            {{ value }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endunless %}
+            {% when 'quantity' %}
 
-        <!-- Quantity Selector -->
-        <div class="space-y-3">
-          <label for="quantity-{{ section.id }}" class="block text-sm font-medium text-gray-700">Quantity</label>
-          <input
-            type="number"
-            name="quantity"
-            id="quantity-{{ section.id }}"
-            value="1"
-            min="1"
-            class="w-32 p-3 rounded-lg border-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-        </div>
+              <!-- Quantity Selector -->
+              <div class="space-y-3">
+                <label for="quantity-{{ section.id }}" class="block text-sm font-medium text-gray-700">Quantity</label>
+                <input
+                  type="number"
+                  name="quantity"
+                  id="quantity-{{ section.id }}"
+                  value="1"
+                  min="1"
+                  class="w-32 p-3 rounded-lg border-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+              </div>
 
-        <!-- Description -->
-        <div class="prose prose-sm max-w-none border-t border-gray-200 pt-6">
-          <p class="text-gray-700">{{ product.description }}</p>
-        </div>
-
-        <!-- Add to Cart Button -->
-        <button
-          type="submit"
-          name="add"
-          {% if selected_variant.available == false %}
-          disabled{% endif %}
-          class="w-full rounded-lg bg-indigo-600 px-6 py-4 text-base font-semibold text-white shadow-md transition duration-300 ease-in-out hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50">
-          {% if selected_variant.available == false %}
-            Sold Out
+            {% when 'description' %}
+              <!-- Description -->
+              <div class="prose prose-sm max-w-none border-t border-gray-200 pt-6">
+                <p class="text-gray-700">{{ product.description }}</p>
+              </div>
+            {% when 'checkout_buttons' %}
+              <!-- Add to Cart Button -->
+              <button
+                type="submit"
+                name="add"
+                {% if selected_variant.available == false %}
+                disabled{% endif %}
+                class="w-full rounded-lg bg-indigo-600 px-6 py-4 text-base font-semibold text-white shadow-md transition duration-300 ease-in-out hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:opacity-50">
+                {% if selected_variant.available == false %}
+                  Sold Out
+                {% else %}
+                  Add to Cart
+                {% endif %}
+              </button>
           {% else %}
-            Add to Cart
-          {% endif %}
-        </button>
-      {% endform %}
-    </div>
-  </div>
-</section>
 
-<script>
-  const swiper = new Swiper('.swiper', {
+            {% endcase %}
+          {% endfor %}
+
+      
+
+
+        {% endform %}
+      </div>
+    </div>
+  </section>
+
+  <script>
+      const swiper = new Swiper('.swiper', {
     direction: 'horizontal',
     pagination: {
       el: '.swiper-pagination'
@@ -174,48 +177,48 @@
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
     },
-  });
-</script>
+      });
+  </script>
 
-{% schema %}
-  {
-    "name": "Product Template",
-    "blocks": [
-      {
-        "type": "vendor",
-        "name": "Vendor",
-        "limit": 1
-      },
-      {
-        "type": "title",
-        "name": "Title",
-        "limit": 1
-      },
-      {
-        "type": "price",
-        "name": "Price",
-        "limit": 1
-      },
-      {
-        "type": "variant_selector",
-        "name": "Variant Selector",
-        "limit": 1
-      },
-      {
-        "type": "quantity",
-        "name": "Quantity",
-        "limit": 1
-      },
-      {
-        "type": "description",
-        "name": "Description",
-        "limit": 1
-      },
-      {
-        "type": "checkout_buttons",
-        "name": "Checkout Buttons",
-        "limit": 1
-      }
-    ]
-  }
-{% endschema %}
+  {% schema %}
+    {
+      "name": "Product Template",
+      "blocks": [
+        {
+          "type": "vendor",
+          "name": "Vendor",
+          "limit": 1
+        },
+        {
+          "type": "title",
+          "name": "Title",
+          "limit": 1
+        },
+        {
+          "type": "price",
+          "name": "Price",
+          "limit": 1
+        },
+        {
+          "type": "variant_selector",
+          "name": "Variant Selector",
+          "limit": 1
+        },
+        {
+          "type": "quantity",
+          "name": "Quantity",
+          "limit": 1
+        },
+        {
+          "type": "description",
+          "name": "Description",
+          "limit": 1
+        },
+        {
+          "type": "checkout_buttons",
+          "name": "Checkout Buttons",
+          "limit": 1
+        }
+      ]
+    }
+  {% endschema %}
