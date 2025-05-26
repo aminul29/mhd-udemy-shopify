@@ -66,6 +66,8 @@
     <div class="product--information sticky top-5 p-2">
       {% form 'product'
         , product
+        , novalidate: 'novalidate'
+        , id: 'product-form'
         , class: 'space-y-8' %}
         <input
           type="hidden"
