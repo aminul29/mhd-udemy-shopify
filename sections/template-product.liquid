@@ -72,9 +72,20 @@
           name="id"
           value="{{ selected_variant.id }}">
 
+         {% for block in section.blocks %}
+            {% case block.type %}
+               {% when 'variant' %}
+                  <span class="inline-block text-sm font-medium text-indigo-600">{{ product.vendor }}</span>
+               {% when condition %}
+               
+               {% else %}
+               
+            {% endcase %}
+         {% endfor %}
+
         <!-- Product Header -->
         <div class="space-y-4 border-b border-gray-200 pb-6">
-          <span class="inline-block text-sm font-medium text-indigo-600">{{ product.vendor }}</span>
+          
           <h1 class="text-4xl font-bold text-gray-900 tracking-tight">{{ product.title }}</h1>
 
           <!-- Price -->
