@@ -95,7 +95,7 @@
               <!-- Variant Selector -->
               {% unless product.has_only_default_variant %}
                 <div
-                  class="space-y-6"
+                  class="space-y-6 border-t border-gray-200 pt-6"
                   data-url="{{ product.url }}"
                   data-section="{{ section.id }}">
                   {% for option in product.options_with_values %}
