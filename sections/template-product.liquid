@@ -186,8 +186,10 @@
          }
     
          getVariantJSON(){
-            this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent)
+            this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
+            return this.variantData
          }
+         
       }
        customElements.define("variant-selector", VariantSelector)
   </script>
