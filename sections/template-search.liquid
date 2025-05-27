@@ -1,34 +1,59 @@
-<div class="container mx-auto">
+{% # Main search container with padding and responsive width %}
+<div class="container mx-auto px-4 py-8">
    {% paginate search.results by 10 %}
-      <h1 class="text-3xl font-bold text-center mt-15 mb-10">Search Results</h1>
-      <div class="">
-         <form action="{{ routes.search_url }}" method="get">
-            <input type="search" name="q" placeholder="Search" value="{{ search.terms | escape }}">
-            <button type="submit">Search</button> 
+      {% # Search page title %}
+      <h1 class="text-3xl font-bold text-center my-8">Search Results</h1>
+
+      {% # Search form with improved styling %}
+      <div class="max-w-xl mx-auto mb-8">
+         <form action="{{ routes.search_url }}" method="get" class="flex gap-2">
+            <input 
+               type="search" 
+               name="q" 
+               placeholder="Search" 
+               value="{{ search.terms | escape }}"
+               class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+            <button 
+               type="submit"
+               class="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+            >
+               Search
+            </button> 
          </form>
       </div>
+
       {% if search.performed %}
          {% if search.results.size > 0 %}
+            {% # Search results container %}
             <div class="max-w-6xl mx-auto">
-               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+               {% # Search results count %}
+               <p class="text-gray-600 mb-6">{{ search.results.size }} results found for "{{ search.terms | escape }}"</p>
+               
+               {% # Product grid %}
+               <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {% for item in search.results %}
                      {% case item.object_type %}
                         {% when 'product' %}
-                           {% render 'product-card', product: item' %}
+                           {% render 'product-card', product: item %}
                         {% else %}
-                           
+                           {% # Handle other result types if needed %}
                      {% endcase %}
                   {% endfor %}
                </div>
             </div>
-
          {% else %}
-         <div class="">
-            <p>No results found for "{{ search.terms }}". Please try a different search term</p>
-         </div>   
+            {% # No results message %}
+            <div class="text-center py-12">
+               <p class="text-gray-600 text-lg">No results found for "{{ search.terms | escape }}". Please try a different search term</p>
+            </div>   
          {% endif %}      
       {% endif %}      
-      {% render 'pagination-numbered', pagination: paginate %}
+
+      {% # Pagination %}
+      <div class="mt-8">
+         {% render 'pagination-numbered', pagination: paginate %}
+      </div>
    {% endpaginate %}
 </div>
 
