@@ -119,24 +119,29 @@
       </div>
     </div>
   </div>
-  <div x-show="searchBarOpen" class="w-full absolute top-0 bg-white border">
+  <div x-show="searchBarOpen" class="w-full absolute top-0 bg-white border shadow-lg z-50">
     <button
       type="button"
-      class="absolute top-0 right-0 mr-5 mt-5 text-gray-500"
+      class="absolute top-0 right-0 mr-5 mt-5 p-2 text-gray-500 hover:text-gray-700 transition-colors duration-200"
       x-on:click="searchBarOpen = false">
       {% render 'icon-close' %}
     </button>
-    <div class="h-40 flex items-center justify-center">
+    <div class="h-40 flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <form
         action="{{ routes.search_url }}"
         method="get"
-        class="flex items-center">
-        <input
-          type="search"
-          name="q"
-          class="w-full"
-          placeholder="Search for products...">
-        <button type="submit" class="absolute right-0 mr-2 text-gray-500">Search</button>
+        class="relative w-full max-w-2xl">
+        <div class="relative">
+          <input
+            type="search"
+            name="q"
+            class="w-full h-12 pl-4 pr-12 text-base text-gray-900 placeholder-gray-500 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Search for products...">
+          <button type="submit" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 hover:text-gray-700 transition-colors duration-200">
+            <span class="sr-only">Search</span>
+            {% render 'icon-search' %}
+          </button>
+        </div>
       </form>
     </div>
   </div>
