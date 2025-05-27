@@ -32,10 +32,12 @@
               </div>
             {% endif %}
 
-            <div class="flex items-center justify-end">
-              <a href="{{ routes.account_register_url }}" class="align-self-start justify-self-start text-left  text-sm text-indigo-600 hover:text-indigo-500">
+            <div class="flex items-center justify-between space-x-4">
+              <a href="{{ routes.account_register_url }}" class="text-sm text-indigo-600 hover:text-indigo-500">
                 Don't have an account? Sign up
-              </a><a href="#" class="text-sm text-indigo-600 hover:text-indigo-500" 
+              </a>
+              <div class="h-4 w-px bg-gray-300"></div>
+              <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500" 
                 x-on:click="loginForm = false; pwRecoverForm = true">
                 Forgot Password?
               </a>
