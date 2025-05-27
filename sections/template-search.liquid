@@ -9,15 +9,24 @@
       </div>
       {% if search.performed %}
          {% if search.results.size > 0 %}
-            {% for item in search.results %}
-               {% case item.object_type %}
-                  {% when 'product' %}
-                     {% render 'product-card', product: item' %}
-                  {% else %}
-                     
-               {% endcase %}
-            {% endfor %}
-         {% endif %}
+            <div class="max-w-6xl mx-auto">
+               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {% for item in search.results %}
+                     {% case item.object_type %}
+                        {% when 'product' %}
+                           {% render 'product-card', product: item' %}
+                        {% else %}
+                           
+                     {% endcase %}
+                  {% endfor %}
+               </div>
+            </div>
+
+         {% else %}
+         <div class="">
+            <p>No results found for "{{ search.terms }}". Please try a different search term</p>
+         </div>   
+         {% endif %}      
       {% endif %}      
       {% render 'pagination-numbered', pagination: paginate %}
    {% endpaginate %}
