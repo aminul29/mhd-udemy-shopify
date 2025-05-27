@@ -1,5 +1,5 @@
 {% assign main_menu_linklist = linklists[section.settings.menu].links %}
-  <header class="relative bg-white" x-data="{ mobileMenuOpen: false }">
+  <header class="relative bg-white" x-data="{ mobileMenuOpen: false, searchBarOpen: false }">
   <div class="mx-auto px-4 sm:px-6">
     <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
       <!-- STORE NAME / STORE LOGO -->
@@ -57,6 +57,7 @@
       </nav>
 
       <div class="hidden md:flex items-center justify-end md:flex-1 space-x-5">
+        <button x-on:click="searchBarOpen = true" class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">{% render 'icon-search' %}</button>
         <a href="{{ routes.cart_url }}" class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">
           {% render 'icon-shopping-bag' %}
         </a>
@@ -117,6 +118,8 @@
     </div>
   </div>
 </header>
+
+<div class="w-full absolute top-0 bg-white "></div>
 
 {% schema %}
   {
