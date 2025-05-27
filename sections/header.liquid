@@ -123,9 +123,21 @@
     <button
       type="button"
       class="absolute top-0 right-0 mr-5 mt-5 text-gray-500"
-      x-on:click="searchBarOpen = false"></button>
+      x-on:click="searchBarOpen = false">
+      {% render 'icon-close' %}
+    </button>
     <div class="h-40 flex items-center justify-center">
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempore molestiae, at neque harum sed facilis! Dolor iste iure nihil maxime?
+      <form
+        action="{{ routes.search_url }}"
+        method="get"
+        class="flex items-center">
+        <input
+          type="search"
+          name="q"
+          class="w-full"
+          placeholder="Search for products...">
+        <button type="submit" class="absolute right-0 mr-2 text-gray-500">Search</button>
+      </form>
     </div>
   </div>
 </header>
