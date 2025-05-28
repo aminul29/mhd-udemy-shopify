@@ -4,5 +4,28 @@
   <!-- Main content container -->
   <div class="block md:flex gap-4">
     <!-- Order history and account details will go here -->
+     {% assign number_of_orders = customer.orders | size %}
+     {% if number_of_orders > 0 %}
+       <div class="w-full md:w-1/2">
+         <h2 class="text-xl font-bold text-gray-700 mb-4">Order History</h2>
+         <div>
+            {% paginate customer.orders by 10 %}
+               {% for order in customer.orders %}
+                  <div class="relative">
+                     <div class="w-full border-t border-gray-300">
+                        {% if condition %}
+                           
+                        {% endif %}
+                     </div>
+                  </div>
+               {% endfor %}
+            {% endpaginate %}
+         </div>
+       </div>
+     {% else %}
+     <div class="w-full">
+       <h2 class="text-xl font-bold text-gray-700 mb-4">No orders found</h2>
+     </div>
+     {% endif %}
   </div>
 </div>
