@@ -16,7 +16,17 @@
                         {% assign order_image = order.line_items.first.image %}
                         {% if order_image  %}
                            <img class="w-full h-full object-cover object-center" src="{{ order_image | img_url: 'large' }}" alt="{{ order_image.alt }}" height="" width="">
+                        {% else %}
+                           {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover' }}
                         {% endif %}
+                     </div>
+                     <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="text-gray-900 text-2xl font-bold">
+                           <h3 class="text-sm text-gray-600">
+                              {{ order.name | link_to: order.customer_url }}
+                           </h3>
+                           <p>{{ order.financial_status_label }}</p>
+                        </div>
                      </div>
                   </div>
                {% endfor %}
