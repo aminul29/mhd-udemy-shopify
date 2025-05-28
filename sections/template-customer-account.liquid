@@ -27,9 +27,16 @@
                            </h3>
                            <p>{{ order.financial_status_label }}</p>
                         </div>
+                        <div class="">
+                           <p>{{ order.fulfillment_status_label }}</p>
+                           <p>{{ order.total_price | money }}</p>
+                        </div>
                      </div>
                   </div>
                {% endfor %}
+               <div class="max-w-7xl mx-auto">
+                  {% render 'pagination-numbered', pagination: paginate %}
+               </div>
             {% endpaginate %}
          </div>
        </div>
