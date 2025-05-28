@@ -12,9 +12,10 @@
             {% paginate customer.orders by 10 %}
                {% for order in customer.orders %}
                   <div class="relative">
-                     <div class="w-full border-t border-gray-300">
-                        {% if condition %}
-                           
+                     <div class="w-full border-t border-gray-300 py-4">
+                        {% assign order_image = order.line_items.first.image %}
+                        {% if order_image  %}
+                           <img class="w-full h-full object-cover object-center" src="{{ order_image | img_url: 'large' }}" alt="{{ order_image.alt }}" height="" width="">
                         {% endif %}
                      </div>
                   </div>
