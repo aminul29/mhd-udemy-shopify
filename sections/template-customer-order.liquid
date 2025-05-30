@@ -1,6 +1,6 @@
-{% # Main container with responsive padding and max width for order details %}
+{% # Renders the customer order details template %}
 <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-  {% # Order header with order number and placement date %}
+  {% # Displays order number and creation date %}
   <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 space-y-4 sm:space-y-0">
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Order {{ order.name }}</h1>
     <div class="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -11,9 +11,9 @@
     </div>
   </div>
 
-  {% # Address information grid - responsive 2-column layout %}
+  {% # Displays billing and shipping address information %}
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-8">
-    {% # Billing address card %}
+    {% # Billing address with payment status %}
     <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
       <div class="p-6">
         <div class="flex items-center justify-between mb-4">
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    {% # Shipping address card %}
+    {% # Shipping address with fulfillment status %}
     <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
       <div class="p-6">
         <div class="flex items-center justify-between mb-4">
@@ -62,18 +62,21 @@
     </div>
   </div>
 
-  {% # Order items section %}
+  {% # Lists all items in the order %}
   <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
     <div class="p-6">
       <h2 class="text-xl font-semibold text-gray-900 mb-6">Order Items</h2>
 
-      {% # Order items list with dividers %}
+      {% # Iterates through each line item using for loop %}
       <div class="divide-y divide-gray-100">
         {% for line_item in order.line_items %}
+          {% # Accesses line item properties: image, title, variant, price %}
           <div class="py-6 flex items-start sm:items-center justify-between flex-col sm:flex-row space-y-4 sm:space-y-0">
-            {% # Product image and details %}
+            {% # Product image and details from line_item object %}
             <div class="flex items-center space-x-4">
+              {% # Checks if line item has an associated image %}
               {% if line_item.image %}
+                {% # Uses image_url filter with width parameter %}
                 <div class="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-50 ring-1 ring-gray-200/50">
                   <img
                     src="{{ line_item.image | image_url: width: 160 }}"
@@ -83,11 +86,13 @@
                     height="80"
                     loading="lazy">
                 </div>
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'w-20 h-20 object-cover rounded-xl' }}
               {% endif %}
 
-              {% # Product information %}
+              {% # Shows variant information if not default title %}
               <div>
-                <h3 class="font-medium text-gray-900">{{ line_item.title }}</h3>
+                <h3 class="font-medium text-gray-900">{{ line_item.title | link_to: line_item.product.url }}</h3>
                 {% if line_item.variant.title != 'Default Title' %}
                   <p class="text-sm text-gray-500 mt-1">{{ line_item.variant.title }}</p>
                 {% endif %}
@@ -95,18 +100,20 @@
               </div>
             </div>
 
-            {% # Price information %}
+            {% # Displays pricing information using money filter %}
             <div class="text-right">
+              {% # Final price including any discounts %}
               <p class="font-medium text-gray-900">{{ line_item.final_line_price | money }}</p>
+              {% # Original unit price %}
               <p class="text-sm text-gray-500 mt-1">{{ line_item.original_price | money }} each</p>
             </div>
           </div>
         {% endfor %}
       </div>
 
-      {% # Order summary section %}
+      {% # Calculates and shows order summary with money filter %}
       <div class="mt-8 pt-6 border-t border-gray-100">
-        {% # Subtotal row %}
+        {% # Display subtotal before tax and shipping %}
         <div class="flex justify-between mb-4">
           <p class="text-gray-500">Subtotal</p>
           <p class="font-medium text-gray-900">{{ order.subtotal_price | money }}</p>
