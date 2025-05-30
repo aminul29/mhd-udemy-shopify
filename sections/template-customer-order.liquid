@@ -3,25 +3,25 @@
   {% # Order header with order number and placement date %}
   <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-8 space-y-4 sm:space-y-0">
     <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Order {{ order.name }}</h1>
-    <p class="text-gray-600">Placed on {{ order.created_at | date: "%B %d, %Y" }}</p>
+    <p class="text-gray-500">Placed on {{ order.created_at | date: "%B %d, %Y" }}</p>
   </div>
 
   {% # Address information grid - responsive 2-column layout %}
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mb-8">
     {% # Billing address card %}
-    <div class="bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+    <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
       <div class="p-6">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-xl font-semibold text-gray-900">Billing Address</h2>
           {% # Payment status badge with conditional styling %}
-          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {% if order.financial_status == 'paid' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {% if order.financial_status == 'paid' %}bg-green-50 text-green-700 ring-1 ring-green-600/20{% else %}bg-yellow-50 text-yellow-700 ring-1 ring-yellow-600/20{% endif %}">
             {{ order.financial_status }}
           </span>
         </div>
 
         {% # Billing address details %}
-        <div class="mt-4 space-y-2 text-gray-700">
-          <p class="font-medium">{{ order.billing_address.name }}</p>
+        <div class="mt-4 space-y-2 text-gray-600">
+          <p class="font-medium text-gray-900">{{ order.billing_address.name }}</p>
           <p>{{ order.billing_address.address1 }}</p>
           {% if order.billing_address.address2 != blank %}
             <p>{{ order.billing_address.address2 }}</p>
@@ -33,19 +33,19 @@
     </div>
 
     {% # Shipping address card %}
-    <div class="bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+    <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
       <div class="p-6">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-xl font-semibold text-gray-900">Shipping Address</h2>
           {% # Fulfillment status badge with conditional styling %}
-          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {% if order.fulfillment_status == 'fulfilled' %}bg-green-100 text-green-800{% else %}bg-blue-100 text-blue-800{% endif %}">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {% if order.fulfillment_status == 'fulfilled' %}bg-green-50 text-green-700 ring-1 ring-green-600/20{% else %}bg-blue-50 text-blue-700 ring-1 ring-blue-600/20{% endif %}">
             {{ order.fulfillment_status_label }}
           </span>
         </div>
 
         {% # Shipping address details %}
-        <div class="mt-4 space-y-2 text-gray-700">
-          <p class="font-medium">{{ order.shipping_address.name }}</p>
+        <div class="mt-4 space-y-2 text-gray-600">
+          <p class="font-medium text-gray-900">{{ order.shipping_address.name }}</p>
           <p>{{ order.shipping_address.address1 }}</p>
           {% if order.shipping_address.address2 != blank %}
             <p>{{ order.shipping_address.address2 }}</p>
@@ -58,18 +58,18 @@
   </div>
 
   {% # Order items section %}
-  <div class="bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
+  <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
     <div class="p-6">
       <h2 class="text-xl font-semibold text-gray-900 mb-6">Order Items</h2>
 
       {% # Order items list with dividers %}
-      <div class="divide-y divide-gray-200">
+      <div class="divide-y divide-gray-100">
         {% for line_item in order.line_items %}
           <div class="py-6 flex items-start sm:items-center justify-between flex-col sm:flex-row space-y-4 sm:space-y-0">
             {% # Product image and details %}
             <div class="flex items-center space-x-4">
               {% if line_item.image %}
-                <div class="relative w-20 h-20 rounded-lg overflow-hidden bg-gray-100 border">
+                <div class="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-50 ring-1 ring-gray-200/50">
                   <img
                     src="{{ line_item.image | image_url: width: 160 }}"
                     alt="{{ line_item.title }}"
@@ -84,33 +84,33 @@
               <div>
                 <h3 class="font-medium text-gray-900">{{ line_item.title }}</h3>
                 {% if line_item.variant.title != 'Default Title' %}
-                  <p class="text-sm text-gray-600 mt-1">{{ line_item.variant.title }}</p>
+                  <p class="text-sm text-gray-500 mt-1">{{ line_item.variant.title }}</p>
                 {% endif %}
-                <p class="text-sm text-gray-600 mt-1">Quantity: {{ line_item.quantity }}</p>
+                <p class="text-sm text-gray-500 mt-1">Quantity: {{ line_item.quantity }}</p>
               </div>
             </div>
 
             {% # Price information %}
             <div class="text-right">
               <p class="font-medium text-gray-900">{{ line_item.final_line_price | money }}</p>
-              <p class="text-sm text-gray-600 mt-1">{{ line_item.original_price | money }} each</p>
+              <p class="text-sm text-gray-500 mt-1">{{ line_item.original_price | money }} each</p>
             </div>
           </div>
         {% endfor %}
       </div>
 
       {% # Order summary section %}
-      <div class="mt-8 pt-6 border-t border-gray-200">
+      <div class="mt-8 pt-6 border-t border-gray-100">
         {% # Subtotal row %}
         <div class="flex justify-between mb-4">
-          <p class="text-gray-600">Subtotal</p>
+          <p class="text-gray-500">Subtotal</p>
           <p class="font-medium text-gray-900">{{ order.subtotal_price | money }}</p>
         </div>
 
         {% # Shipping cost if applicable %}
         {% if order.shipping_price > 0 %}
           <div class="flex justify-between mb-4">
-            <p class="text-gray-600">Shipping</p>
+            <p class="text-gray-500">Shipping</p>
             <p class="font-medium text-gray-900">{{ order.shipping_price | money }}</p>
           </div>
         {% endif %}
@@ -118,13 +118,13 @@
         {% # Tax if applicable %}
         {% if order.tax_price > 0 %}
           <div class="flex justify-between mb-4">
-            <p class="text-gray-600">Tax</p>
+            <p class="text-gray-500">Tax</p>
             <p class="font-medium text-gray-900">{{ order.tax_price | money }}</p>
           </div>
         {% endif %}
 
         {% # Total amount %}
-        <div class="flex justify-between items-center text-lg font-medium text-gray-900 pt-4 border-t border-gray-200">
+        <div class="flex justify-between items-center text-lg font-medium text-gray-900 pt-4 border-t border-gray-100">
           <p>Total</p>
           <p>{{ order.total_price | money }}</p>
         </div>
