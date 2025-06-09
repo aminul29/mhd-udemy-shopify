@@ -1,0 +1,28 @@
+<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+   <div class="max-w-md w-full space-y-8">
+      <div>
+         <h1 class="mt-6 text-center text-3xl font-bold text-gray-900">Activate your account</h1>
+         <p class="mt-4 text-center">Create your password to activate your account</p>
+      </div>
+      <div>
+         {% form 'activate_customer_password', class: 'space-y-4', id: 'activate_account_form'%}
+            {% if form.errors %}
+               <div class="relative border border-red-700 bg-red-100 text-red-700 px-4 py-2 rounded-md" role="alert">
+                  <strong class="font-bold block">Error!</strong>
+                  <span class="block sm:inline">
+                     {{ form.errors | default_errors}}
+                  </span>
+               </div>
+            {% endif %}
+            <label for="password" class="mb-2">Password</label>
+            <input type="password" placeholder="Password" name="customer[password]" autocomplete="new-password" id="password" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <label for="confirm_password" class="mb-2">Confirm Password</label>
+            <input type="password" name="customer[password_confirmation]" autocomplete="new-password" id="confirm_password" placeholder="Confirm Password" class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            <div class="block md:flex items-center justify-between space-x-4">
+               <button type="submit" class="w-full font-medium text-white bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-md">Activate Account</button>
+               <button type="submit" name="decline" class="w-full font-medium text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md">Decline</button>
+            </div>
+         {% endform %}
+      </div>
+   </div>
+</div>

@@ -1,0 +1,99 @@
+<script src="{{ 'customer-address.js' | asset_url }}" defer></script>
+
+<div class="max-w-6xl mx-auto px-4 py-8 sm:py-12" x-data="{ new_address: false }">
+   <div class="flex flex-col md:flex-row items-center justify-between mb-12 gap-6 border-b border-gray-200 pb-6">
+      <div class="flex flex-col gap-2">
+         <h1 class="text-4xl font-bold text-gray-900">Addresses</h1>
+         <p class="text-gray-500">Manage your shipping addresses</p>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center gap-4">
+         <button x-on:click="new_address = true" type="button" class="group w-full sm:w-auto inline-flex items-center justify-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-8 rounded-md transition-all duration-200 ease-in-out shadow-sm hover:shadow-indigo-100 hover:shadow-lg">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            New Address
+         </button>
+         <a href="{{ routes.account_url }}"
+            class="w-full sm:w-auto text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200 inline-flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Account
+         </a>
+      </div>
+   </div>
+
+   {% # New address form modal %} 
+    <div x-show="new_address" class="h-full w-full fixed inset-0 bg-gray-600/45 backdrop-blur-sm overflow-y-auto z-50">
+      <div class="min-h-screen flex items-center justify-center p-4 py-20">
+         <div class="relative w-full max-w-md mx-auto bg-white border rounded-lg shadow-xl p-4">
+            <div class="flex items-center justify-between mb-4">
+               <h2 class="text-lg font-medium">New Address</h2>
+               <button x-on:click="new_address = false"
+                       type="button"
+                       class="text-gray-400 hover:text-gray-500">
+                  <svg class="w-6 h-6"
+                       fill="none"
+                       stroke="currentColor"
+                       viewBox="0 0 24 24">
+                     <path stroke-linecap="round"
+                           stroke-linejoin="round"
+                           stroke-width="2"
+                           d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+               </button>
+            </div>
+            {% # Render the new address form %}
+            {% render 'address-new-form' %}
+         </div>
+      </div>
+   </div>
+
+   <div>
+      {% paginate customer.addresses by 10 %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+         {% for address in customer.addresses %}
+         <div class="" x-data="{address_{{ address.id }}: false}">
+            <div class="relative flex flex-col text-center border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition duration-150 ease-in-out p-6">
+               {% if address == customer.default_address %}
+               <span class="absolute top-4 right-4 text-xs font-medium text-green-800 border border-green-500 bg-green-100 rounded-full px-3 py-1">
+                  Default
+               </span>
+               {% endif %}
+               <div class="my-6 h-full text-gray-700">
+                  {{ address | format_address }}
+               </div>
+               <div class="flex flex-row justify-center gap-3 mt-auto">
+                  <button type="button" x-on:click="address_{{ address.id }} = true" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out">
+                     Edit
+                  </button>
+                  <button type="button" class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out" data-delete-address data-url="{{ address.url }}">
+                     Delete
+                  </button>
+               </div>
+
+               <form action="{{ address.url }}" data-url="{{ address.url }}" method="post">
+                  <input type="hidden" name="_method" value="delete">
+               </form>
+
+               {% # Edit address form modal %} <div x-show="address_{{ address.id }}" class="h-full w-full fixed inset-0 bg-gray-600/25 backdrop-blur-sm overflow-y-auto z-50">
+                  <div class="min-h-screen flex items-center justify-center p-4 py-20">
+                     <div class="text-left relative w-full max-w-md mx-auto bg-white border border-gray-500 rounded-lg shadow-xl p-4">
+                        <div class="flex items-center justify-between mb-4">
+                           <h2 class="text-lg font-medium">Edit address</h2>
+                           <button x-on:click="address_{{ address.id }} = false" type="button" class="text-gray-400 hover:text-gray-500">
+                              {% render 'icon-close' %}
+                           </button>
+                        </div>
+                        {% # Render the edit address form %}
+                        {% render 'address-edit-form', address: address %}
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+      {% endpaginate %}
+   </div>
+</div>

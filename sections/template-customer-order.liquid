@@ -34,6 +34,50 @@
           <p>{{ order.billing_address.city }}, {{ order.billing_address.province }}</p>
           <p>{{ order.billing_address.country }} {{ order.billing_address.zip }}</p>
         </div>
+        <div class="mt-6 border-t border-gray-100 pt-6">
+          <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5 text-gray-600"
+              height="24"
+              width="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+            </svg>
+            Payment Information
+          </h3>
+          {% for transaction in order.transactions %}
+            <div class="bg-gray-50 rounded-lg p-4 mb-3 last:mb-0">
+              {% assign credit_card_company = transaction.payment_details.credit_card_company %}
+              {% assign credit_card_last_4digits = transaction.payment_details.credit_card_number %}
+              {% if credit_card_company %}
+                <div class="flex items-center justify-between">
+                  <div class="space-y-1">
+                    <p class="font-medium text-gray-900">{{ credit_card_company }}</p>
+                    <p class="text-sm text-gray-600">Card ending in {{ credit_card_last_4digits }}</p>
+                  </div>
+                  {% case transaction.status_label %}
+                    {% when 'Failure' %}
+                      {% assign background = 'red' %}
+                    {% else %}
+                      {% assign background = 'green' %}
+                  {% endcase %}
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-{{ background }}-50 text-{{ background }}-700 ring-1 ring-{{ background }}-600/20">
+                    {{ transaction.status_label }}
+                  </span>
+                </div>
+              {% else %}
+                <p class="text-sm text-gray-600">This order is manually placed by {{ shop.name }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
 
@@ -41,7 +85,7 @@
     <div class="bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all duration-300">
       <div class="p-6">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-gray-900">Shipping Address</h2>
+          <h2 class="text-xl font-semibold text-gray-900">Delivery Address</h2>
           {% # Fulfillment status badge with conditional styling %}
           <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {% if order.fulfillment_status == 'fulfilled' %}bg-green-50 text-green-700 ring-1 ring-green-600/20{% else %}bg-blue-50 text-blue-700 ring-1 ring-blue-600/20{% endif %}">
             {{ order.fulfillment_status_label }}
@@ -50,7 +94,7 @@
 
         {% # Shipping address details %}
         <div class="mt-4 space-y-2 text-gray-600">
-          <p class="font-medium text-gray-900">{{ order.shipping_address.name }}</p>
+          {% comment %} <p class="font-medium text-gray-900">{{ order.shipping_address.name }}</p> {% endcomment %}
           <p>{{ order.shipping_address.address1 }}</p>
           {% if order.shipping_address.address2 != blank %}
             <p>{{ order.shipping_address.address2 }}</p>
@@ -70,42 +114,92 @@
       {% # Iterates through each line item using for loop %}
       <div class="divide-y divide-gray-100">
         {% for line_item in order.line_items %}
-          {% # Accesses line item properties: image, title, variant, price %}
-          <div class="py-6 flex items-start sm:items-center justify-between flex-col sm:flex-row space-y-4 sm:space-y-0">
-            {% # Product image and details from line_item object %}
-            <div class="flex items-center space-x-4">
-              {% # Checks if line item has an associated image %}
-              {% if line_item.image %}
-                {% # Uses image_url filter with width parameter %}
-                <div class="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-50 ring-1 ring-gray-200/50">
-                  <img
-                    src="{{ line_item.image | image_url: width: 160 }}"
-                    alt="{{ line_item.title }}"
-                    class="w-full h-full object-cover object-center"
-                    width="80"
-                    height="80"
-                    loading="lazy">
-                </div>
-              {% else %}
-                {{ 'product-1' | placeholder_svg_tag: 'w-20 h-20 object-cover rounded-xl' }}
-              {% endif %}
-
-              {% # Shows variant information if not default title %}
-              <div>
-                <h3 class="font-medium text-gray-900">{{ line_item.title | link_to: line_item.product.url }}</h3>
-                {% if line_item.variant.title != 'Default Title' %}
-                  <p class="text-sm text-gray-500 mt-1">{{ line_item.variant.title }}</p>
+          <div class="py-8 flex flex-col space-y-4">
+            <div class="flex items-start sm:items-center justify-between flex-col sm:flex-row space-y-4 sm:space-y-0">
+              <div class="flex items-center space-x-4">
+                {% if line_item.image %}
+                  <div class="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-50 ring-1 ring-gray-200/50">
+                    <img
+                      src="{{ line_item.image | image_url: width: 160 }}"
+                      alt="{{ line_item.title }}"
+                      class="w-full h-full object-cover object-center"
+                      width="80"
+                      height="80"
+                      loading="lazy">
+                  </div>
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'w-20 h-20 object-cover rounded-xl' }}
                 {% endif %}
-                <p class="text-sm text-gray-500 mt-1">Quantity: {{ line_item.quantity }}</p>
+
+                <div>
+                  <h3 class="font-medium text-gray-900">{{ line_item.title | link_to: line_item.product.url }}</h3>
+                  {% if line_item.variant.title != 'Default Title' %}
+                    <p class="text-sm text-gray-500 mt-1">{{ line_item.variant.title }}</p>
+                  {% endif %}
+                  <p class="text-sm text-gray-500 mt-1">Quantity: {{ line_item.quantity }}</p>
+                </div>
+              </div>
+
+              <div class="text-right">
+                <p class="font-medium text-gray-900">{{ line_item.final_line_price | money }}</p>
+                <p class="text-sm text-gray-500 mt-1">{{ line_item.original_price | money }} each</p>
               </div>
             </div>
 
-            {% # Displays pricing information using money filter %}
-            <div class="text-right">
-              {% # Final price including any discounts %}
-              <p class="font-medium text-gray-900">{{ line_item.final_line_price | money }}</p>
-              {% # Original unit price %}
-              <p class="text-sm text-gray-500 mt-1">{{ line_item.original_price | money }} each</p>
+            <div class="mt-4 bg-gray-50 rounded-lg p-5">
+              <div class="flex items-center gap-2 mb-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 text-gray-600"
+                  fill="none"
+                  height="24"
+                  width="24"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                </svg>
+                <h3 class="font-semibold text-gray-900">Fulfillment Status</h3>
+              </div>
+
+              {% if line_item.successfully_fulfilled_quantity > 0 %}
+                <div class="space-y-2">
+                  <p class="text-sm text-gray-600">We have fulfilled {{ line_item.successfully_fulfilled_quantity }} of this order</p>
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm font-medium text-gray-700">Tracking company:</span>
+                      <span class="text-sm text-gray-600">{{ line_item.fulfillment.tracking_company }}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm font-medium text-gray-700">Tracking number:</span>
+                      <span class="text-sm text-gray-600">{{ line_item.fulfillment.tracking_number }}</span>
+                    </div>
+                  </div>
+                  <a
+                    href="{{ line_item.fulfillment.tracking_url }}"
+                    class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow-sm transition-colors duration-200"
+                    target="_blank">
+                    Track Order
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4 ml-2"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </div>
+              {% else %}
+                <p class="text-sm text-gray-600">This item has not yet been fulfilled</p>
+              {% endif %}
             </div>
           </div>
         {% endfor %}

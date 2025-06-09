@@ -1,5 +1,17 @@
 {
-"printWidth": 120,
-"htmlWhitespaceSensitivity": "ignore",
-"singleAttributePerLine": false
+  "printWidth": 200,
+  "htmlWhitespaceSensitivity": "ignore",
+  "singleAttributePerLine": false,
+  "bracketSameLine": true,
+  "bracketSpacing": true,
+  "semi": true,
+  "liquid": {
+    "indentSchema": false,
+    "singleLineLinkTags": true,
+    "indentHTML": true,
+    "formatOptions": {
+      "indentSize": 2,
+      "singleAttributePerLine": false
+    }
+  }
 }
